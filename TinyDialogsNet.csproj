@@ -3,7 +3,22 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <Nullable>disable</Nullable>
     </PropertyGroup>
 
+    <!--Unmanaged Dependencies-->
+    <ItemGroup>
+        <x86Dependencies Include="$(ProjectDir)Dependencies/x86/*.*" />
+        <x64Dependencies Include="$(ProjectDir)Dependencies/x64/*.*" />
+    </ItemGroup>
+
+    <Target Name="CopyResourcesx86" AfterTargets="AfterBuild" Condition="'$(Platform)' == 'Win32' Or '$(Platform)' == 'AnyCPU'">
+        <Message Text="Copying x86 dependencies" Importance="high" />
+        <Copy SourceFiles="@(x86Dependencies)" DestinationFolder="$(OutDir)" />
+    </Target>
+
+    <Target Name="CopyResourcesx64" AfterTargets="AfterBuild" Condition="'$(Platform)' == 'x64'">
+        <Message Text="Copying x64 dependencies" Importance="high" />
+        <Copy SourceFiles="@(x64Dependencies)" DestinationFolder="$(OutDir)" />
+    </Target>
 </Project>
