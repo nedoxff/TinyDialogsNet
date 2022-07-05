@@ -4,6 +4,17 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageVersion>1.0.1</PackageVersion>
+        <Title>TinyDialogsNet</Title>
+        <Authors>NedoProgrammer</Authors>
+        <Description>A C# wrapper around tinyfiledialogs.</Description>
+        <Copyright>nedo</Copyright>
+        <PackageProjectUrl>https://github.com/NedoProgrammer/TinyDialogsNet</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/NedoProgrammer/TinyDialogsNet/blob/master/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/NedoProgrammer/TinyDialogsNet</RepositoryUrl>
+        <RepositoryType>GitHub</RepositoryType>
+        <PackageTags>file dialog, tiny file dialog, io</PackageTags>
     </PropertyGroup>
 
     <!--Unmanaged Dependencies-->

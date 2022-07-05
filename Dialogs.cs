@@ -32,7 +32,7 @@ public static class Dialogs
 
 	public enum MessageBoxDefaultButton
 	{
-		CancelNo = 1,
+		CancelNo = 0,
 		OkYes = 1,
 		NoInYnc = 2
 	}
