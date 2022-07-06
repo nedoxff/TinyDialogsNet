@@ -19,8 +19,8 @@ Yes, but you can still use the AnyCPU configuration.
 
 # Supported OSes
 - Windows (x86/x64)
-- Linux (soon!)
-- MacOS (soon!)
+- Linux (x64, not tested)
+- OSX (not tested)
 
 # Is there a NuGet package?
 [Yes!](https://www.nuget.org/packages/TinyDialogsNet/)
