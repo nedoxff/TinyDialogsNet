@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.0.2</PackageVersion>
+        <PackageVersion>1.0.3</PackageVersion>
         <Title>TinyDialogsNet</Title>
         <Authors>NedoProgrammer</Authors>
         <Description>A C# wrapper around tinyfiledialogs.</Description>
