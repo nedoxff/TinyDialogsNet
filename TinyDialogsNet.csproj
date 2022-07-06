@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.0.1</PackageVersion>
+        <PackageVersion>1.0.2</PackageVersion>
         <Title>TinyDialogsNet</Title>
         <Authors>NedoProgrammer</Authors>
         <Description>A C# wrapper around tinyfiledialogs.</Description>
@@ -19,17 +19,6 @@
 
     <!--Unmanaged Dependencies-->
     <ItemGroup>
-        <x86Dependencies Include="$(ProjectDir)Dependencies/x86/*.*" />
-        <x64Dependencies Include="$(ProjectDir)Dependencies/x64/*.*" />
+        <None Include="runtimes/**" Pack="true" PackagePath="runtimes" />
     </ItemGroup>
-
-    <Target Name="CopyResourcesx86" AfterTargets="AfterBuild" Condition="'$(Platform)' == 'Win32' Or '$(Platform)' == 'AnyCPU'">
-        <Message Text="Copying x86 dependencies" Importance="high" />
-        <Copy SourceFiles="@(x86Dependencies)" DestinationFolder="$(OutDir)" />
-    </Target>
-
-    <Target Name="CopyResourcesx64" AfterTargets="AfterBuild" Condition="'$(Platform)' == 'x64'">
-        <Message Text="Copying x64 dependencies" Importance="high" />
-        <Copy SourceFiles="@(x64Dependencies)" DestinationFolder="$(OutDir)" />
-    </Target>
 </Project>
