@@ -1,8 +1,8 @@
-﻿# TinyDialogsNet
-A C# wrapper around [tinyfiledialogs](https://sourceforge.net/projects/tinyfiledialogs).
+# TinyDialogsNet
+A C# wrapper around [tinyfiledialog](https://sourceforge.net/projects/tinyfiledialogs).
 
 # Why?
-I felt like rewritting the test file provided in the tinyfiledialogs repo, so I did just that.
+I felt like rewritting the test file provided in the tinyfiledialog repo, so I did just that.
 
 # What does it have?
 Currently it has a:
@@ -15,12 +15,14 @@ Currently it has a:
 - ColorChooser
 
 # Is it platform dependant?
-Yes. There are no Any CPU configurations, because tinyfiledialogs only ships with x64 and x32 versions.
+Yes, but you can still use the AnyCPU configuration.
 
-# Why are there only DLLs?
-I currently didn't add support for Linux since I don't have a working machine at the moment. Stay tuned, I probably will implement it soon!
+# Supported OSes
+- Windows (x86/x64)
+- Linux (soon!)
+- MacOS (soon!)
 
-# Will there be a NuGet package?
-Maybe, maybe not. I'm not sure.
+# Is there a NuGet package?
+[Yes!](https://www.nuget.org/packages/TinyDialogsNet/)
 
 ### more coming soon!
