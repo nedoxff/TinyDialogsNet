@@ -96,7 +96,7 @@ public static class Dialogs
 		return Marshal.PtrToStringAuto(result);
 	}
 
-	public static string ColorChooser(string title = "", string defaultHex = "")
+	public static string ColorChooser(string title = "", string defaultHex = "#000000")
 	{
 		var rgb = HexToRgb(defaultHex).ToArray();
 		var result = tinyfd_colorChooser(title, defaultHex, rgb, rgb);
