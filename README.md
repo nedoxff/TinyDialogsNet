@@ -45,7 +45,7 @@ Dialogs.NotifyPopup(Dialogs.PopupIconType.Warning, "Warning!", "You have an unre
 var response = Dialogs.MessageBox(Dialogs.MessageBoxButtons.YesNo, Dialogs.MessageBoxIconType.Error,
     Dialogs.MessageBoxDefaultButton.OkYes, "Unhandled exception!", "Would you like to submit a crash report?");
 // Example of reading the response:
-// if(response == (int)Dialogs.MessageBoxButtons.Ok)) {...}
+// if(response == (int)Dialogs.MessageBoxButtons.Ok) {...}
 // Please check Dialogs.cs for more icons/buttons
 ```
 ![image](https://user-images.githubusercontent.com/65343244/222251186-8945df44-0490-4035-a02e-1f06d165396d.png)
