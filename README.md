@@ -1,86 +1,150 @@
-# TinyDialogsNet
-A C# wrapper around [tinyfiledialog](https://sourceforge.net/projects/tinyfiledialogs).
+<h1 align="center">TinyDialogsNet</h1>
 
-# Why?
-I felt like rewritting the test file provided in the tinyfiledialog repo, so I did just that.
+<p align="center">
+    <img src="https://img.shields.io/nuget/v/TinyDialogsNet">
+</p>
 
-# What does it have?
-Currently it has a:
-- Beeper
-- Input box
-- NotifyPopup
-- SaveFileDialog
-- OpenFileDialog
-- SelectFolderDialog
-- ColorChooser
+TinyDialogsNet is a C# wrapper around [tinyfiledialogs](https://sourceforge.net/projects/tinyfiledialogs), which is a
+C/C++ library for displaying dialogs with a simple interface in mind. This library aims to replicate the same easiness
+of use, which includes abstracting any UTF string conversions and Interop stuff away from the user.
 
-# Is it platform dependant?
-Yes, but you can still use the AnyCPU configuration.
+> [!IMPORTANT]
+> The `2.0.0` version of TinyDialogsNet is a complete rewrite of the previous `1.1.0` version. Please check the examples
+> below to learn how to use the new version appropriately.
 
-# Supported OSes
-- Windows (x86/x64)
-- Linux (x64, not tested)
-- OSX (not tested)
+## Supported platforms
 
-# Is there a NuGet package?
-[Yes!](https://www.nuget.org/packages/TinyDialogsNet/)
+Since tinyfiledialogs is a C/C++ library, it comes with a set of native library files which are contained in
+the `runtimes` folder. Such files are included for the following platforms:
 
-# Examples (Windows 10)
+| OS      | x86 | x64 | arm64 |
+|---------|:---:|:---:|:-----:|
+| Windows |  ✅  |  ✅  |   ❌   |
+| Linux   |  ✅  |  ✅  |   ❌   |
+| OSX     |  ❌  |  ✅  |   ✅   |
 
-### InputBox
-```cs
-var input = Dialogs.InputBox(Dialogs.InputBoxType.Default, "Question", "Please enter the login..");
-// Change InputBoxType to Password to hide entered characters
-```
-![image](https://user-images.githubusercontent.com/65343244/222249819-61b1ca52-aa06-422c-8913-c2ed994bca31.png)
+## Installation
 
-### NotifyPopup
-```cs
-Dialogs.NotifyPopup(Dialogs.PopupIconType.Warning, "Warning!", "You have an unregistered copy of Windows.");
-```
-![image](https://user-images.githubusercontent.com/65343244/222250752-eac4b85c-364e-4195-bcd2-0135c23b5567.png)
+You can:
 
-### MessageBox
-```cs
-var response = Dialogs.MessageBox(Dialogs.MessageBoxButtons.YesNo, Dialogs.MessageBoxIconType.Error,
-    Dialogs.MessageBoxDefaultButton.OkYes, "Unhandled exception!", "Would you like to submit a crash report?");
-// Example of reading the response:
-// if(response == (int)Dialogs.MessageBoxButtons.Ok) {...}
-// Please check Dialogs.cs for more icons/buttons
-```
-![image](https://user-images.githubusercontent.com/65343244/222251186-8945df44-0490-4035-a02e-1f06d165396d.png)
+- Build the library from source and include it in your project manually.
+    - `git clone https://github.com/nedoxff/TinyDialogsNet`
+    - `cd TinyDialogsNet`
+    - `dotnet build --configuration Release` (you'll need .NET8 for this)
+    - The output will be in `bin/Release/net6.0`, `bin/Release/net7.0` and `bin/Release/net8.0` (don't forget
+      the `runtimes` folder!)
+- [Install the library from NuGet.](https://www.nuget.org/packages/TinyDialogsNet/)
 
-### ColorChooser
-```cs
-var hexColor = Dialogs.ColorChooser("Please select a color..", "#FFFFFF");
+## Usage
+
+The library provides support for these dialogs:
+
+<details>
+<summary>Notification popup</summary>
+
+```csharp
+// NotificationIconType also has Error & Information properties
+TinyDialogs.NotifyPopup(NotificationIconType.Information, "Title", "Message");
 ```
 
-![image](https://user-images.githubusercontent.com/65343244/222257290-03475a9d-fd57-4f6b-979c-62aed6b50586.png)
+</details>
 
-### About dialogs
-Please note that: 
-- the filters are optional
-- the returned value may be null if the user pressed cancel
+<details>
+<summary>Message box</summary>
 
-### OpenFileDialog
-
-```cs
-var files = Dialogs.OpenFileDialog("Please select an image..", "", new[] { "*.jpg" }, "JPEG images", true);
+```csharp
+var response = TinyDialogs.MessageBox("Title", "Message", MessageBoxDialogType.YesNo,  // which buttons to show
+                                                          MessageBoxIconType.Question, // which icon to show
+                                                          MessageBoxButton.Yes);       // the default button
+// response is a MessageBoxButton which has Ok, Yes, No & Cancel properties
 ```
 
-![image](https://user-images.githubusercontent.com/65343244/222258241-89b2a6a1-9111-4255-9878-cf163b3ee362.png)
+</details>
 
-### SaveFileDialog
-```cs
-var path = Dialogs.SaveFileDialog("Please select where to save the report..", "", "*.log", "Log files");
+<details>
+<summary>Input box</summary>
+
+```csharp
+// InputBoxType also has the Password property
+var (canceled, text) = TinyDialogs.InputBox(InputBoxType.Text, "Title", "Description", "Placeholder");
 ```
 
-![image](https://user-images.githubusercontent.com/65343244/222258517-3eed87ff-666a-4e75-af4b-5d3534088778.png)
+</details>
 
-### SelectFolderDialog
+<details>
+<summary>Save file dialog</summary>
 
-```cs
-var folder = Dialogs.SelectFolderDialog("Please select the folder with images..");
+```csharp
+var filter = new FileFilter("Image files", ["*.jpg", "*.png"]);
+var (canceled, path) = TinyDialogs.SaveFileDialog("Title", "Default path", filter);
 ```
 
-![image](https://user-images.githubusercontent.com/65343244/222258820-18765de3-fff6-475d-a800-2f14d3243ecc.png)
+</details>
+
+<details>
+<summary>Open file dialog</summary>
+
+```csharp
+var filter = new FileFilter("Image files", ["*.jpg", "*.png"]);
+var allowMultipleSelections = true;
+var (canceled, paths) = TinyDialogs.OpenFileDialog("Title", "Default path", allowMultipleSelections, filter);
+```
+
+</details>
+
+<details>
+<summary>Select folder dialog</summary>
+
+```csharp
+var (canceled, path) = TinyDialogs.SelectFolderDialog("Title", "Default path");
+```
+
+</details>
+
+<details>
+<summary>Color chooser dialog</summary>
+
+```csharp
+var (canceled, color) = TinyDialogs.ColorChooser("Title", "Default color (#RRGGBB)");
+```
+
+</details>
+
+<details>
+<summary>Beeper</summary>
+
+```csharp
+TinyDialogs.Beep();
+```
+
+</details>
+
+One can also get and set native properties of the library:
+
+```csharp
+var version = TinyDialogs.GetGlobalStringVariable(StringVariable.Version);
+Console.WriteLine($"Using tinyfiledialogs v{version}");
+
+// "0" if false, "1" if true
+var verbose = TinyDialogs.GetGlobalIntegerVariable(IntegerVariable.Verbose);
+TinyDialogs.SetGlobalIntegerVariable(IntegerVariable.Silent, 1);
+```
+
+*Additional documentation can be found in the XML documentation
+of [TinyDialogs.cs](https://github.com/nedoxff/TinyDialogsNet/blob/master/TinyDialogs.cs).*
+
+## Contributing
+
+If you find a bug or have a suggestion on how the library can be improved, please create an issue! I'll try to check
+them regularly.
+
+## Thank you
+
+- [vareille](https://github.com/vareille), who
+  made [the original tinyfiledialogs library](https://sourceforge.net/projects/tinyfiledialogs/) and whose C# examples
+  file was the main inspiration and reference for this project.
+
+## License
+
+TinyDialogsNet is distributed under the MIT license. The original tinyfiledialogs library is distributed under the zlib
+license.
