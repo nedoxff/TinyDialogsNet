@@ -9,7 +9,7 @@
         <Title>TinyDialogsNet</Title>
         <Authors>nedoxff</Authors>
         <Description>a C# wrapper around tinyfiledialogs.</Description>
-        <Copyright>nedo</Copyright>
+        <Copyright>nedoxff</Copyright>
         <PackageProjectUrl>https://github.com/nedoxff/TinyDialogsNet</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/nedoxff/TinyDialogsNet/blob/master/LICENSE</PackageLicenseUrl>
         <RepositoryUrl>https://github.com/nedoxff/TinyDialogsNet</RepositoryUrl>
@@ -17,7 +17,6 @@
         <PackageTags>file dialog io</PackageTags>
         <AssemblyVersion>2.0.0</AssemblyVersion>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <AssemblyOriginatorKeyFile>tinydialogsnetkey.snk</AssemblyOriginatorKeyFile>
     </PropertyGroup>
 
     <ItemGroup>
