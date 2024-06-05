@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace TinyDialogsNet;
 
 /// <summary>
-/// The entrypoint to all dialogs provided by the wrapper.
+///     The entrypoint to all dialogs provided by the wrapper.
 /// </summary>
 public static class TinyDialogs
 {
@@ -24,10 +24,13 @@ public static class TinyDialogs
     /// <param name="icon">The icon of the notification. See <see cref="NotificationIconType" /> for values.</param>
     /// <param name="title">The title of the notification.</param>
     /// <param name="message">The body of the notification.</param>
+    /// <exception cref="ArgumentException">The title string was ill-formed.</exception>
     // Intentional, as the return value is only useful for tinyfd_query, which is not included in this library.
     [SuppressMessage("Performance", "CA1806")]
     public static void NotifyPopup(NotificationIconType icon, string title, string message)
     {
+        DialogHelpers.RequireValidTitleOrThrow(title);
+
         if (OperatingSystem.IsWindows()) NativeDialogs.tinyfd_notifyPopupW(title, message, icon.ToNativeString());
         else NativeDialogs.tinyfd_notifyPopup(title, message, icon.ToNativeString());
     }
@@ -42,13 +45,12 @@ public static class TinyDialogs
     /// <param name="defaultButton">The button which will be focused by default.</param>
     /// <remarks>The <see cref="title" /> parameter cannot contain new line or tab characters. </remarks>
     /// <returns>The button which the user clicked.</returns>
-    /// <exception cref="ArgumentException">If the title string contained invalid characters.</exception>
+    /// <exception cref="ArgumentException">The title string was ill-formed.</exception>
     public static MessageBoxButton MessageBox(string title, string message,
         MessageBoxDialogType type,
         MessageBoxIconType icon, MessageBoxButton defaultButton)
     {
-        if (title.Contains('\n') || title.Contains('\t'))
-            throw new ArgumentException("The title cannot contain new line or tab characters.", nameof(title));
+        DialogHelpers.RequireValidTitleOrThrow(title);
 
         var response = OperatingSystem.IsWindows()
             ? NativeDialogs.tinyfd_messageBoxW(title, message, type.ToNativeString(), icon.ToNativeString(),
@@ -71,9 +73,12 @@ public static class TinyDialogs
     ///     If canceled, returns an empty string and "true" for the "canceled" parameter. Otherwise, returns the text the
     ///     user inputted.
     /// </returns>
+    /// <exception cref="ArgumentException">The title string was ill-formed.</exception>
     public static (bool Canceled, string Text) InputBox(InputBoxType type, string title, string message,
         string placeholder = "")
     {
+        DialogHelpers.RequireValidTitleOrThrow(title);
+
         var nativePlaceholder = type == InputBoxType.Password ? null : placeholder;
         var response = OperatingSystem.IsWindows()
             ? NativeDialogs.tinyfd_inputBoxW(title, message, nativePlaceholder)
@@ -96,9 +101,12 @@ public static class TinyDialogs
     ///     If canceled, returns an empty path and "true" for the "canceled" parameter. Otherwise, returns the path the
     ///     user selected.
     /// </returns>
+    /// <exception cref="ArgumentException">The title string was ill-formed.</exception>
     public static (bool Canceled, string Path) SaveFileDialog(string title, string defaultPath = "",
         FileFilter filter = default)
     {
+        DialogHelpers.RequireValidTitleOrThrow(title);
+
         var patternCount = filter?.Patterns?.Count() ?? 0;
         var patterns = filter?.Patterns?.ToArray() ?? Array.Empty<string>();
 
@@ -124,9 +132,12 @@ public static class TinyDialogs
     ///     If canceled, returns an empty array and "true" for the "canceled" parameter. Otherwise, returns a list of
     ///     paths the user selected.
     /// </returns>
+    /// <exception cref="ArgumentException">The title string was ill-formed.</exception>
     public static (bool Canceled, IEnumerable<string> Paths) OpenFileDialog(string title, string defaultPath = "",
         bool allowMultipleSelections = false, FileFilter filter = default)
     {
+        DialogHelpers.RequireValidTitleOrThrow(title);
+
         var patternCount = filter?.Patterns?.Count() ?? 0;
         var patterns = filter?.Patterns?.ToArray() ?? Array.Empty<string>();
 
@@ -150,8 +161,11 @@ public static class TinyDialogs
     ///     If canceled, returns an empty path and "true" for the "canceled" parameter. Otherwise, returns the path the
     ///     user selected.
     /// </returns>
+    /// <exception cref="ArgumentException">The title string was ill-formed.</exception>
     public static (bool Canceled, string Path) SelectFolderDialog(string title, string defaultPath = "")
     {
+        DialogHelpers.RequireValidTitleOrThrow(title);
+
         var response = OperatingSystem.IsWindows()
             ? NativeDialogs.tinyfd_selectFolderDialogW(title, defaultPath)
             : NativeDialogs.tinyfd_selectFolderDialog(title, defaultPath);
@@ -175,9 +189,12 @@ public static class TinyDialogs
     ///     If canceled, returns an empty string and "true" for the "canceled" parameter. Otherwise, returns the color the
     ///     user selected in #RRGGBB format.
     /// </returns>
-    /// <exception cref="ArgumentException">If the <see cref="defaultColor" /> parameter was in an invalid format.</exception>
+    /// <exception cref="ArgumentException">The <see cref="defaultColor" /> parameter was in an invalid format.</exception>
+    /// <exception cref="ArgumentException">The title string was ill-formed.</exception>
     public static (bool Canceled, string Color) ColorChooser(string title, string defaultColor = "#000000")
     {
+        DialogHelpers.RequireValidTitleOrThrow(title);
+
         var rgb = DialogHelpers.HexToRgb(defaultColor);
 
         var response = OperatingSystem.IsWindows()

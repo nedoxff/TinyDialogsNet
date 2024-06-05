@@ -110,4 +110,12 @@ internal static class DialogHelpers
         var b = byte.Parse(hex[4..6], NumberStyles.AllowHexSpecifier);
         return new[] { r, g, b };
     }
+
+    public static void RequireValidTitleOrThrow(string title)
+    {
+        if (title.Contains('\n') || title.Contains('\t') || title.Contains('\'') || title.Contains('"'))
+            throw new ArgumentException(
+                @"The title is ill-formed. It cannot contain new-line (\n) and tab (\t) escape characters, nor quotes (both single and double).",
+                nameof(title));
+    }
 }
