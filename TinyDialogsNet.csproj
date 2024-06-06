@@ -11,7 +11,8 @@
         <Description>a C# wrapper around tinyfiledialogs.</Description>
         <Copyright>nedoxff</Copyright>
         <PackageProjectUrl>https://github.com/nedoxff/TinyDialogsNet</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/nedoxff/TinyDialogsNet/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>README.nuget.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/nedoxff/TinyDialogsNet</RepositoryUrl>
         <RepositoryType>GitHub</RepositoryType>
         <PackageTags>file dialog io</PackageTags>
@@ -24,6 +25,8 @@
             <Link>runtimes/%(RecursiveDir)%(FileName)%(Extension)</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Include="README.nuget.md" Pack="true" PackagePath="\"/>
+        <None Include="LICENSE" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
     <PropertyGroup>
